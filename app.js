@@ -45,3 +45,5 @@ let port = process.env.PORT || 3005;
 server.listen(port, process.env.IP, function() {
   console.log("DB Server has started on port no : " + port);
 });
+
+module.exports = app ; 

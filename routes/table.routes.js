@@ -19,6 +19,6 @@ TableRouter.get("/:tableId",clientAuth, tables.findOne);
 // Delete a Table with tableId
 TableRouter.delete("/:tableId",adminAuth, tables.delete);
 
-TableRouter.delete("/",adminAuth, tables.deleteAll);
+// TableRouter.delete("/deleteAll",adminAuth, tables.deleteAll);
 
 module.exports = TableRouter;
