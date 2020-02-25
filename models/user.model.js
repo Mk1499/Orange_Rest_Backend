@@ -1,6 +1,6 @@
 const sql = require("./db.js");
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // constructor
 const User = function(user) {
@@ -13,38 +13,38 @@ const User = function(user) {
 
 // Create user
 User.create = (userData, result) => {
-  let q = `SELECT id from Users WHERE email = '${userData.email}'`;  
-  sql.query( q,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      } else if (res.length > 0) {
-        result(
-          {
-            message: "Sorry But This email is already signed up before"
-          },
-          null
-        );
-        return;
-      } else if (res.length === 0) {
-        // let token = jwt.sign({ userData }, process.env.tokenSecret);
+  let q = `SELECT id from Users WHERE email = '${userData.email}'`;
+  
 
-        // userData.token = token;
-        sql.query("INSERT INTO Users SET ?", userData, (err, res) => {
-          if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-          }
+  sql.query(q, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    } else if (res.length > 0) {
+      result(
+        {
+          message: "Sorry But This email is already signed up before"
+        },
+        null
+      );
+      return;
+    } else if (res.length === 0) {
+      // let token = jwt.sign({ userData }, process.env.tokenSecret);
 
-          console.log("created user: ", { id: res.insertId, ...userData });
-          result(null, { id: res.insertId, ...userData });
-        });
-      }
+      // userData.token = token;
+      sql.query("INSERT INTO Users SET ?", userData, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+
+        console.log("created user: ", { id: res.insertId, ...userData });
+        result(null, { id: res.insertId, ...userData });
+      });
     }
-  );
+  });
 };
 
 // Find User Profile
@@ -82,24 +82,25 @@ User.getAll = result => {
 // Login User
 User.login = (user, result) => {
   console.log("User Data : ", user);
-  let query = `SELECT * FROM Users WHERE email = '${user.email}'`; 
   
-  sql.query(query,(err , res) => {
+
+  let query = `SELECT * FROM Users WHERE email = '${user.email}'`;
+
+  sql.query(query, (err, res) => {
     if (err) {
       console.log("error : ", err);
       result(err, null);
       return;
-    } 
-    if (res.length){
-      console.log("User : ",res[0].password);
-      let userData = res[0]; 
-      bcrypt.compare(user.password,userData.password , (err , match) => {
-        if (err){
+    }
+    if (res.length) {
+      console.log("User : ", res[0].password);
+      let userData = res[0];
+      bcrypt.compare(user.password, userData.password, (err, match) => {
+        if (err) {
           console.log("error : ", err);
           result(err, null);
           return;
-        }
-        else if(match) {
+        } else if (match) {
           console.log("found user : ", userData);
           let token = jwt.sign({ userData }, process.env.tokenSecret);
 
@@ -109,22 +110,24 @@ User.login = (user, result) => {
         } else {
           result({ kind: "not_found" }, null);
         }
-      })
-    } 
-  })  
-  
-//  query = `SELECT * FROM Users WHERE email = '${user.email}' and password = '${user.password}'`;
-//   console.log("Q : ", query);
+      });
+    } else {
+      result({ kind: "not_found" }, null);
+    }
+  });
 
-//   sql.query(query, (err, res) => {
-//     if (err) {
-//       console.log("error : ", err);
-//       result(err, null);
-//       return;
-//     }
+  //  query = `SELECT * FROM Users WHERE email = '${user.email}' and password = '${user.password}'`;
+  //   console.log("Q : ", query);
+
+  //   sql.query(query, (err, res) => {
+  //     if (err) {
+  //       console.log("error : ", err);
+  //       result(err, null);
+  //       return;
+  //     }
 
   //   if (res.length) {
-      
+
   //   }
 
   //   // not found User with given email and password
