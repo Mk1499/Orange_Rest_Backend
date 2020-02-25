@@ -39,14 +39,19 @@ exports.create = async (req, res) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message:
+              error:
                 err.message ||
                 "Con't book this table with that number of persons "
             });
           }
+          else if (err.kind === "bad_request"){
+            res.status(400).send({
+              error: err.message || "Some error occurred while booking the Table."
+            });
+          }
           else  {
             res.status(500).send({
-              message: err.message || "Some error occurred while booking the Table."
+              error: err.message || "Some error occurred while booking the Table."
             });
           }
         } else res.send(data);
@@ -60,7 +65,6 @@ exports.create = async (req, res) => {
     });
 };
 
-// Retrieve all Bookings from the database.
 exports.findAll = (req, res) => {
   Book.getAll((err, data) => {
     if (err)
@@ -85,5 +89,21 @@ exports.findByDate = (req, res) => {
         });
       }
     } else res.send(data);
+  });
+};
+
+exports.delete = (req, res) => {
+  Book.remove(req.params.bookId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          error: `There is no Reservation with id ${req.params.bookId}`
+        });
+      } else {
+        res.status(500).send({
+          error: "Could not delete Reservation with id " + req.params.bookId
+        });
+      }
+    } else res.send({ message: `Reservation was deleted successfully!` });
   });
 };

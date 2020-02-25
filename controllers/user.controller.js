@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 
-// Create and Save a new User
 exports.create = (req, res) => {
   // Validate request
   if (Object.keys(req.body).length === 0) {
@@ -61,7 +60,6 @@ exports.create = (req, res) => {
   }
 };
 
-// Retrieve all Users from the database.
 exports.findAll = (req, res) => {
   User.getAll((err, data) => {
     if (err)
@@ -72,7 +70,6 @@ exports.findAll = (req, res) => {
   });
 };
 
-// Find a single User with a userId
 exports.findOne = (req, res) => {
   User.findById(req.params.userId, (err, data) => {
     if (err) {
@@ -118,11 +115,4 @@ exports.login = (req, res) => {
   }
 };
 
-// Update a User identified by the userId in the request
-exports.update = (req, res) => {};
 
-// Delete a User with the specified userId in the request
-exports.delete = (req, res) => {};
-
-// Delete all Users from the database.
-exports.deleteAll = (req, res) => {};

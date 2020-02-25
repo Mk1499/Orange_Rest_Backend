@@ -2,7 +2,6 @@ const app = require("../app");
 const request = require("supertest")(app);
 const should = require("should");
 
-var lastTableID;
 
 describe("Login", () => {
   it("login with not valid email", done => {
@@ -184,6 +183,50 @@ describe("Registeration", () => {
 //   });
 });
 
+describe('Admin monitor and control users ', () => {
+   
+    it("View all clients with out authentication ", (done)=> {
+            request
+            .get('/users')
+            .expect(401)
+            .end(function(err, res) {
+                if (err) return done(err);
+                res.body.should.have.property('error','Un Authenticated Request');
+                done();
+            });
+    })
+    let authClient = {};
+    before(loginClient(authClient));
+
+    it('Client cannot show other users', function(done) {
+        request
+            .get('/users')
+            .set('Authorization', 'bearer ' + authClient.token)
+            .expect(401)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                if (err) return done(err);
+                res.body.should.have.property('error','Un Authorized Request');
+                done();
+            });
+    });
+   
+    let authAdmin = {};
+    before(loginAdmin(authAdmin));
+    it('Admin can view all Users', function(done) {
+        request
+            .get('/users')
+            .set('Authorization', 'bearer ' + authAdmin.token)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                if (err) return done(err);
+                res.body.should.be.instanceof(Array);
+                done();
+            });
+    });
+    
+})
 
 function loginAdmin(auth) {
   return function(done) {

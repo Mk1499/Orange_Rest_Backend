@@ -22,10 +22,12 @@ Booking.create = (newBooking, result) => {
 
     if (!(bookingDateStart > dateOfNow)) {
       reject({
+        kind:"bad_request",
         message: "you must book a table in future date"
       });
     } else if (bookingDateEnd < bookingDateStart) {
       reject({
+        kind:"bad_request",
         message: "Start Booking Date Must be Before End Booking Date"
       });
     } else {
@@ -125,6 +127,25 @@ Booking.findByDate = (date, result) => {
     }
 
     console.log("bookings: ", res);
+    result(null, res);
+  });
+};
+
+Booking.remove = (id, result) => {
+  sql.query("DELETE FROM Reservations WHERE id = ?", id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Table with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted table with id: ", id);
     result(null, res);
   });
 };

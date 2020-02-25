@@ -11,4 +11,6 @@ BookRouter.get("/",adminAuth, books.findAll);
 
 BookRouter.get("/:date",adminAuth,books.findByDate); 
 
+BookRouter.delete("/:bookId",adminAuth,books.delete);
+
 module.exports = BookRouter;
