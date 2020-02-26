@@ -28,6 +28,19 @@ OrangeRest uses a number of open source projects to work properly:
 
 ### Installation
 
+- Create .env file with following content
+
+```sh
+Developer="Mohamed Khaled"
+PORT=3000
+DBHOST="YOUR DB HOSTNAME"
+DBUSER="YOUR DB USERNAME"
+DBPW="YOUR DB PASSWORD"
+DBNAME="YOUR DB NAME"
+
+tokenSecret="Orange_Rest"
+```
+
 OrangeRest requires [Node.js](https://nodejs.org/) v4+ to run.
 
 Install the dependencies and devDependencies and start the server.
