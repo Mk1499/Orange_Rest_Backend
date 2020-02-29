@@ -51,9 +51,11 @@ $ npm install
 $ node app.js
 ```
 
-For Testing
+### Testing
 
 ```sh
 $ npm run test
 ```
 
+### Postman Collection
+- For Better Experience You can import [This Postman Collection](https://www.getpostman.com/collections/ea4a4a118ee6b5b9f6f1)
