@@ -51,7 +51,7 @@ Table.getAvailable = result => {
 
 Table.search = (date,persons, result) => {
 
-  let query = `SELECT * from Tables WHERE id NOT IN (SELECT tableId from Reservations WHERE DATE('${date}') BETWEEN DATE(bookingDateStart) and DATE(bookingDateEnd) ) and max_persons >= ${persons}
+  let query = `SELECT * from Tables WHERE id NOT IN (SELECT tableId from Reservations WHERE DATE('${date}') BETWEEN DATE(bookingDateStart) and DATE(bookingDateEnd) ) and max_persons > ${persons}
   `
 
   sql.query( query, (err, res) => {
