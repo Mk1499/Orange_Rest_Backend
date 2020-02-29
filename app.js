@@ -47,7 +47,7 @@ const bookRouter = require("./routes/booking.routes");
 app.use("/book", bookRouter);
 
 let port = process.env.PORT || 3005;
-server.listen(port, process.env.IP, function() {
+server.listen(port, function() {
   console.log("DB Server has started on port no : " + port);
 });
 
