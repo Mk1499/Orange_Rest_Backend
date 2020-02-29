@@ -11,6 +11,8 @@ TableRouter.post("/", adminAuth, tables.create);
 TableRouter.get("/", adminAuth, tables.findAll);
 
 TableRouter.get("/available", clientAuth, tables.getAvailable);
+TableRouter.get("/search/:date/:persons", clientAuth, tables.search);
+
 
 // Delete a Table with tableId
 TableRouter.delete("/:tableId", adminAuth, tables.delete);

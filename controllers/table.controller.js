@@ -65,3 +65,14 @@ exports.delete = (req, res) => {
   });
 };
 
+
+exports.search = (req, res) => {
+  Table.search(req.params.date , req.params.persons,(err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving customers."
+      });
+    else res.send(data);
+  });
+};

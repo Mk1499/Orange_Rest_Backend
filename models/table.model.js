@@ -49,6 +49,23 @@ Table.getAvailable = result => {
   });
 };
 
+Table.search = (date,persons, result) => {
+
+  let query = `SELECT * from Tables WHERE id NOT IN (SELECT tableId from Reservations WHERE DATE('${date}') BETWEEN DATE(bookingDateStart) and DATE(bookingDateEnd) ) and max_persons > ${persons}
+  `
+
+  sql.query( query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("tables: ", res);
+    result(null, res);
+  });
+};
+
 Table.findById = (tableId, result) => {
   sql.query(`SELECT * FROM Tables WHERE id = ${tableId}`, (err, res) => {
     if (err) {
