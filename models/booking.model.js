@@ -150,4 +150,21 @@ Booking.remove = (id, result) => {
   });
 };
 
+Booking.findForClient = (clientId, result) => {
+  let q = `SELECT * FROM Reservations WHERE userId = '${clientId}' `;
+  console.log("Q : ", q);
+
+  sql.query(q, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("bookings: ", res);
+    result(null, res);
+  });
+};
+
+
 module.exports = Booking;

@@ -12,14 +12,14 @@ exports.create = async (req, res) => {
 
   return new Promise((resolve, reject) => {
     let userData;
-    let token = req.headers.authorization.split(" ")[1] ; 
+    let token = req.headers.authorization.split(" ")[1];
     try {
       userData = jwt.verify(token, process.env.tokenSecret);
     } catch (err) {
       reject({ message: "Invalid Token" });
     }
-    console.log("userDataeeeee : ",userData);
-    
+    console.log("userDataeeeee : ", userData);
+
     resolve(userData.userData);
   })
     .then(userData => {
@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
         tableId: req.body.tableId,
         noOfPersons: req.body.noOfPersons,
         bookingDateStart: req.body.bookingDateStart,
-        bookingDateEnd:req.body.bookingDateEnd,
+        bookingDateEnd: req.body.bookingDateEnd,
         creationDate: req.body.creationDate
       });
 
@@ -43,15 +43,15 @@ exports.create = async (req, res) => {
                 err.message ||
                 "Con't book this table with that number of persons "
             });
-          }
-          else if (err.kind === "bad_request"){
+          } else if (err.kind === "bad_request") {
             res.status(400).send({
-              error: err.message || "Some error occurred while booking the Table."
+              error:
+                err.message || "Some error occurred while booking the Table."
             });
-          }
-          else  {
+          } else {
             res.status(500).send({
-              error: err.message || "Some error occurred while booking the Table."
+              error:
+                err.message || "Some error occurred while booking the Table."
             });
           }
         } else res.send(data);
@@ -86,6 +86,22 @@ exports.findByDate = (req, res) => {
       } else {
         res.status(500).send({
           message: "Error retrieving Booking with date " + req.params.date
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.findForClient = (req, res) => {
+  Book.findForClient(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found any Booking for user ${req.params.userId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Booking for user " + req.params.userId
         });
       }
     } else res.send(data);
