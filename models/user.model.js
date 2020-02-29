@@ -40,8 +40,10 @@ User.create = (userData, result) => {
           return;
         }
 
-        console.log("created user: ", { id: res.insertId, ...userData });
-        let token = jwt.sign({ userData }, process.env.tokenSecret);
+        let fullUser = { id: res.insertId, ...userData }; 
+
+        console.log("created user: ", fullUser);
+        let token = jwt.sign({ userData:fullUser }, process.env.tokenSecret);
 
           userData.token = token;
         result(null, { id: res.insertId, ...userData });
