@@ -24,6 +24,7 @@ OrangeRest uses a number of open source projects to work properly:
 * NodeJS - evented I/O for the backend
 * Express - fast node.js network app framework
 * Mocha & Chai & Supertest
+* MYSQL as Database RDBMS
 
 
 ### Installation
@@ -58,4 +59,7 @@ $ npm run test
 ```
 
 ### Postman Collection
-- For Better Experience You can import [This Postman Collection](https://www.getpostman.com/collections/ea4a4a118ee6b5b9f6f1)
+- For Better Experience You can import [This Postman Collection](https://drive.google.com/open?id=14CrerFPvrQoM2t26PlqbTDgPUPTv7SHY)
+
+### Database 
+- For Better Experience You can import [This Database Collection Script](https://drive.google.com/file/d/1jh_daS20zUKESCjJ72TtORPtKc3aB6DT/view?usp=sharing)
